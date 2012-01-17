@@ -7,7 +7,7 @@ import sys
 from lib import HandlerCache, FileTransformProcessor, ChangeListener
 import settings
 
-def on_exit():
+def on_exit(sig, frame):
     print 'Exiting program'
     sys.exit(0)
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     src_dir = sys.argv[1]
-    if argc > 3:
+    if argc >= 3:
         dest_dir = sys.argv[2]
     else:
         dest_dir = '.'
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     handler_cache = HandlerCache(settings.HANDLERS)
     if len(settings.HANDLERS) <= 0:
         print >> sys.stderr, 'No handler specified, quitting'
-        sys.exit(1)
+        sys.exit(0)
 
     print 'Listening for changes...'
     transform_processor = FileTransformProcessor(handler_cache, src_dir,
