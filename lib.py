@@ -16,6 +16,7 @@ class HandlerCache(object):
         self.handlers = { regex_str: command for regex_str, command in config }
 
     def get_command(self, filename):
+        """Retrieve the processing command based on its file match."""
         for regex, key in self.regexes:
             if regex.search(filename):
                 return self.handlers[key]
@@ -97,4 +98,8 @@ class FileTransformProcessor(object):
             }
             command = self._translate_command(
                     self.handler.get_command(filename), data)
-            print 'Command:', command
+            try:
+                subprocess.check_output(command, shell=True)
+            except subprocess.CalledProcessError:
+                print >> stderr, 'ERROR: failure occured with', command
+
