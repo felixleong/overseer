@@ -1,3 +1,4 @@
+import os
 import os.path as op
 import pprint
 import re
@@ -51,6 +52,7 @@ class FileTransformProcessor(object):
         'input_file': re.compile(r'\$INPUT_FILE'),
         'output_file': re.compile(r'\$OUTPUT_FILE'),
         'input_dir': re.compile(r'\$INPUT_DIR'),
+        'output_root_dir': re.compile(r'\$OUTPUT_ROOT_DIR'),
         'output_dir': re.compile(r'\$OUTPUT_DIR'),
     }
 
@@ -85,21 +87,26 @@ class FileTransformProcessor(object):
         pass
 
     def process(self, filename):
-        source_file = op.join(self.source_dir, filename)
-        dest_file = op.join(self.dest_dir, filename)
+        file_relpath = op.relpath(filename, self.source_dir)
+        source_file = op.join(self.source_dir, file_relpath)
+        dest_file = op.join(self.dest_dir, file_relpath)
+        dest_dir = op.dirname(dest_file)
+        if not op.isdir(dest_dir):
+            os.makedirs(dest_dir)
 
         if self._update_required(source_file, dest_file):
-            print 'Processing', filename
             data = {
                 'input_file': source_file,
                 'output_file': dest_file,
                 'input_dir': self.source_dir,
-                'output_dir': self.dest_dir,
+                'output_dir': dest_dir,
+                'output_root_dir': self.dest_dir,
             }
             command = self._translate_command(
                     self.handler.get_command(filename), data)
+            print command
             try:
                 subprocess.check_output(command, shell=True)
             except subprocess.CalledProcessError:
-                print >> stderr, 'ERROR: failure occured with', command
+                print >> sys.stderr, 'ERROR: failure occured with', command
 

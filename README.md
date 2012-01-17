@@ -12,5 +12,6 @@ arguments with each execution:
 - `$INPUT_FILE` - The input file, i.e. the changed file
 - `$OUTPUT_FILE` - The output file, which is equivalent to `$OUTPUT_DIR/$INPUT_FILE`
 - `$INPUT_DIR` - The input directory, i.e. the directory that is being watched
-- `$OUTPUT_DIR` - The destination directory to write the files to if specified when executing the script
+- `$OUTPUT_ROOT_DIR` - The destination directory to write the files to if specified when executing the script
+- `$OUTPUT_DIR` - The destination directory that follows the directory structure of `$INPUT_FILE`
 

@@ -1,6 +1,5 @@
 HANDLERS = (
     # Format: (r'File pattern regex to match', 'Resulting command to execute')
-    (r'.*\.py$', 'echo python'),
-    (r'.*\.png$', 'echo png'),
-    (r'.*\.jpe*g$', 'echo jpeg'),
+    (r'.*\.png$', 'optipng -out "$OUTPUT_FILE" "$INPUT_FILE"'),
+    (r'.*\.jpe*g$', 'jpegoptim -p --strip-all --dest="$OUTPUT_DIR" "$INPUT_FILE"'),
 )
