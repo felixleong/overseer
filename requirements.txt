@@ -1,0 +1,3 @@
+observer==0.1.0
+py-kqueue==2.0.1
+wsgiref==0.1.2
