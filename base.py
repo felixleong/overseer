@@ -34,9 +34,9 @@ class ChangeListener(TreeObserver):
     executor = None
 
     def __init__(self, executor, regex_list, basedir):
+        self.executor = executor
         super(ChangeListener, self).__init__(basedir,
                 re.compile(r'|'.join(regex_list)), GitIgnore(basedir))
-        self.executor = executor
 
     def action(self, entries):
         for filename in entries:

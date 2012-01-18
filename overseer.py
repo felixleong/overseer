@@ -49,7 +49,4 @@ if __name__ == '__main__':
             dest_dir)
     listener = ChangeListener(transform_processor,
             handler_cache.get_regex_list(), src_dir)
-    # Hack? Loop would seem to happily run without waiting for everything to
-    # initialize cleanly
-    time.sleep(1)
     listener.loop()
