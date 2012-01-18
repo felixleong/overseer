@@ -4,7 +4,7 @@ import os.path as op
 import signal
 import sys
 
-from lib import HandlerCache, FileTransformProcessor, ChangeListener
+from base import HandlerCache, FileTransformProcessor, ChangeListener
 import settings
 
 def on_exit(sig, frame):
@@ -46,5 +46,6 @@ if __name__ == '__main__':
     print 'Listening for changes...'
     transform_processor = FileTransformProcessor(handler_cache, src_dir,
             dest_dir)
-    ChangeListener(transform_processor, handler_cache.get_regex_list(),
-            src_dir).loop()
+    listener = ChangeListener(transform_processor, handler_cache.get_regex_list(),
+            src_dir)
+    listener.loop()
