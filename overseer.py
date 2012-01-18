@@ -3,6 +3,7 @@
 import os.path as op
 import signal
 import sys
+import time
 
 from base import HandlerCache, FileTransformProcessor, ChangeListener
 import settings
@@ -46,6 +47,9 @@ if __name__ == '__main__':
     print 'Listening for changes...'
     transform_processor = FileTransformProcessor(handler_cache, src_dir,
             dest_dir)
-    listener = ChangeListener(transform_processor, handler_cache.get_regex_list(),
-            src_dir)
+    listener = ChangeListener(transform_processor,
+            handler_cache.get_regex_list(), src_dir)
+    # Hack? Loop would seem to happily run without waiting for everything to
+    # initialize cleanly
+    time.sleep(1)
     listener.loop()
